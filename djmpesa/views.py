@@ -173,7 +173,7 @@ class BussinessToCustomerAPIView(APIView):
         data["Amount"] = request["Amount"]
         data["PartyB"] = request["PartyB"]
 
-        withdrawal_request = WithrawalRequest.objects.create(**data)
+        withdrawal_request = B2CRequest.objects.create(**data)
         withdrawal_request.save()
 
         return Response(response.json())
@@ -206,7 +206,7 @@ class B2CResultView(CreateAPIView):
                 data["TransactionCompletedDateTime"]
             )
 
-            withdrawal_instance = WithrawalResult.objects.create(**data)
+            withdrawal_instance = B2CResult.objects.create(**data)
 
             withdrawal_instance.save()
 

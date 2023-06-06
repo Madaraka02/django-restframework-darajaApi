@@ -33,7 +33,7 @@ class LipaNaMPesa(models.Model):
     
 
 
-class WithrawalRequest(models.Model):
+class B2CRequest(models.Model):
     ConversationId = models.CharField(max_length=50)
     OriginatorConversationId = models.CharField(max_length=50)
     ResponseDescription = models.CharField(max_length=150)
@@ -45,7 +45,7 @@ class WithrawalRequest(models.Model):
         return f"pay: {self.PartyB} by {self.Amount}"
 
 
-class WithrawalResult(models.Model):
+class B2CResult(models.Model):
     ConversationId = models.CharField(max_length=50)
     OriginatorConversationId = models.CharField(max_length=50)
     ResultDesc = models.CharField(max_length=150)
