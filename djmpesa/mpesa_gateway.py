@@ -117,7 +117,7 @@ class MpesaPaymentAPI:
             'PartyA': phone_number,
             'PartyB': business_short_code,
             'PhoneNumber': phone_number,
-            'CallBackURL': 'https://mydomain.com/callback', # Webhook to receive transaction notifications
+            'CallBackURL': 'http://127.0.0.1:8000/epress-payments', # Webhook to receive transaction notifications
             'AccountReference': account_number,
             'TransactionDesc': narration
         }
@@ -137,17 +137,16 @@ class MpesaPaymentAPI:
         return response.json()    
     
 
-    def business_to_customer(self, amount, phone_number,account_number, remarks, occassion):
+    def business_to_customer(self, amount, phone_number, remarks, occassion):
         business_short_code = settings.DARAJA_BUSINESS_SHORTCODE
         passkey = settings.DARAJA_PASSKEY
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
 
         access_token = self.get_access_token()
         password = self.generate_password(business_short_code, passkey, timestamp)
-        narration = f"Payment for  a transaction {account_number}"
 
 
-        api_url = f'{self.base_url}/mpesa/stkpush/v1/processrequest'
+        api_url = f'{self.base_url}/mpesa/b2c/v1/paymentrequest'
         headers = {
             'Authorization': f'Bearer {access_token}',
             'Content-Type': 'application/json'
@@ -161,8 +160,8 @@ class MpesaPaymentAPI:
             "PartyA": business_short_code,
             "PartyB": phone_number,
             "Remarks": remarks,
-            "QueueTimeOutURL": "https://mydomain.com/b2c/queue", # Webhook to receive failed transaction notification
-            "ResultURL": "https://mydomain.com/b2c/result", # Webhook to receive successful transaction notification
+            "QueueTimeOutURL": "http://127.0.0.1:8000/queue", # Webhook to receive failed transaction notification
+            "ResultURL": "http://127.0.0.1:8000/withdraw-result", # Webhook to receive successful transaction notification
             "Occassion": occassion #Additional information of the transaction
         }
 
@@ -178,3 +177,4 @@ class MpesaPaymentAPI:
 
         response = requests.post(api_url, json=payload, headers=headers)
         return response.json()    
+      
