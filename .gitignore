@@ -1,0 +1,15 @@
+db.sqlite3
+
+.env
+
+venv/
+
+.vscode/
+.idea/
+
+*.log
+
+dist/
+build/
+
+__pycache__/
